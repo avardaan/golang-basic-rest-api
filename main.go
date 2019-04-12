@@ -10,14 +10,14 @@ import (
 type Book struct {
 	ID     string  `json:"id"`
 	Isbn   string  `json:"isbn"`
-	Title  string  `json="title"`
-	Author *Author `json="author"`
+	Title  string  `json:"title"`
+	Author *Author `json:"author"`
 }
 
 // Author Struct
 type Author struct {
-	Firstname string `json="firstname"`
-	Lastname  string `json="lastname"`
+	Firstname string `json:"firstname"`
+	Lastname  string `json:"lastname"`
 }
 
 // get all books
@@ -25,7 +25,7 @@ func getBooks(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// get one books
+// get one book
 func getBook(w http.ResponseWriter, r *http.Request) {
 
 }

@@ -1,11 +1,15 @@
 package main
 
 import (
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
+
+// Book Struct (Model)
+type Book struct {
+	ID string `json:"id`
+}
 
 func main() {
 	// Init Router

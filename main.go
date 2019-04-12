@@ -37,9 +37,9 @@ func getBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r) // get params from url
 	// iterate through books to find book with id
-	for _, item := range books {
-		if item.ID == params["id"] {
-			json.NewEncoder(w).Encode(item)
+	for _, book := range books {
+		if book.ID == params["id"] {
+			json.NewEncoder(w).Encode(book)
 			return
 		}
 	}
@@ -50,8 +50,8 @@ func getBook(w http.ResponseWriter, r *http.Request) {
 func createBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var book Book
-	_ = json.NewDecoder(r.Body).Decode(&book)
-	book.ID = strconv.Itoa(rand.Intn(1000)) // create mock ID and convert to string
+	_ = json.NewDecoder(r.Body).Decode(&book) // convert json book to Go struct
+	book.ID = strconv.Itoa(rand.Intn(1000))   // create mock ID and convert to string
 	books = append(books, book)
 	json.NewEncoder(w).Encode(book)
 }
@@ -63,7 +63,14 @@ func updateBook(w http.ResponseWriter, r *http.Request) {
 
 // delete a book
 func deleteBook(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	for index, item := range books {
+		if item.ID == params["id"] {
+			books = append(books[:index], books[index+1:]...) // remove book from array
+			break
+		}
+	}
 }
 
 func main() {

@@ -59,15 +59,19 @@ func createBook(w http.ResponseWriter, r *http.Request) {
 // update a book
 func updateBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var book Book
-	_ = json.NewDecoder(r.Body).Decode(&book)
+	params := mux.Vars(r)
 	for _, item := range books {
-		if item.ID == book.ID {
+		if item.ID == params["id"] {
+			var book Book
+			_ = json.NewDecoder(r.Body).Decode(&book)
 			item = book // set book in array to book in request
+			/* Assuming request json includes book ID, otherwise add this line:
+			item.ID = params["id"] */
 			json.NewEncoder(w).Encode(book)
 			return
 		}
 	}
+	json.NewEncoder(w).Encode("Couldn't find book with given ID")
 
 }
 

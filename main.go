@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -25,7 +26,7 @@ var books []Book
 
 // get all books
 func getBooks(w http.ResponseWriter, r *http.Request) {
-
+	json.NewEncoder(w).Encode(books)
 }
 
 // get one book

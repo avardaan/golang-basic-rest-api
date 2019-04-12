@@ -15,7 +15,10 @@ type Book struct {
 }
 
 // Author Struct
-type Author
+type Author struct {
+	Firstname string `json="firstname"`
+	Lastname  string `json="lastname"`
+}
 
 func main() {
 	// Init Router

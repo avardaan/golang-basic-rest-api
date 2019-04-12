@@ -50,7 +50,7 @@ func getBook(w http.ResponseWriter, r *http.Request) {
 func createBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var book Book
-	_ = json.NewDecoder(r.Body).Decode(&book) // convert json book to Go struct
+	_ = json.NewDecoder(r.Body).Decode(&book) // convert json book to Go struct (and store in variable book?)
 	book.ID = strconv.Itoa(rand.Intn(1000))   // create mock ID and convert to string
 	books = append(books, book)
 	json.NewEncoder(w).Encode(book)
@@ -58,6 +58,16 @@ func createBook(w http.ResponseWriter, r *http.Request) {
 
 // update a book
 func updateBook(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var book Book
+	_ = json.NewDecoder(r.Body).Decode(&book)
+	for _, item := range books {
+		if item.ID == book.ID {
+			item = book // set book in array to book in request
+			json.NewEncoder(w).Encode(book)
+			return
+		}
+	}
 
 }
 
@@ -71,6 +81,7 @@ func deleteBook(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
+	json.NewEncoder(w).Encode(books)
 }
 
 func main() {
